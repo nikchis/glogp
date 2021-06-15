@@ -246,7 +246,7 @@ func (p *Printer) push(message string, level LogLevel) {
 	}
 
 	fields := logrus.Fields{}
-	_, path, line, ok := runtime.Caller(3)
+	_, path, line, ok := runtime.Caller(4)
 	if ok {
 		paths := strings.Split(path, "/")
 		if len(paths) > 1 {
@@ -255,7 +255,7 @@ func (p *Printer) push(message string, level LogLevel) {
 			srcExValue = fmt.Sprintf("%s:%s", srcFileName, srcLineName)
 		}
 	}
-	_, path, line, ok = runtime.Caller(2)
+	_, path, line, ok = runtime.Caller(3)
 	if ok {
 		paths := strings.Split(path, "/")
 		if len(paths) > 1 {
