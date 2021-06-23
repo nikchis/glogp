@@ -32,6 +32,7 @@ func LogLevelValue(LevelName string) LogLevel {
 	return LogLevelNone
 }
 
+// Sets logging level {error,warn,info,debug}
 func SetLevel(level string) {
 	Print.level = LogLevelValue(level)
 }

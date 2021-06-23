@@ -20,5 +20,8 @@ func main() {
 
 	time.Sleep(time.Millisecond * 10)
 	glogp.Warnf("Warn message")
+
+	glogp.SetFormat("JSON")
+	glogp.Infof("Info message in JSON")
 }
 ~~~

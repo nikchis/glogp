@@ -3,6 +3,7 @@ package glogp
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/fxamacker/cbor/v2"
 	logrus "github.com/sirupsen/logrus"
@@ -16,6 +17,18 @@ const (
 	LogFormatJson
 	LogFormatCbor
 )
+
+func LogFormatValue(FormatName string) LogFormat {
+	switch strings.ToLower(FormatName) {
+	case "text":
+		return LogFormatText
+	case "json":
+		return LogFormatJson
+	case "cbor":
+		return LogFormatCbor
+	}
+	return LogFormatNone
+}
 
 type LogField string
 
@@ -129,6 +142,29 @@ func (f textFormatter) Format(e *logrus.Entry) ([]byte, error) {
 		str, row.Td, row.Trace, row.Eid, row.Bin, row.Ts, LogTextColorNone)
 
 	return []byte(str), nil
+}
+
+// Sets logging format {text,json,cbor}
+func SetFormat(format string) {
+	Print.format = LogFormatValue(format)
+	if Print.logStdout != nil {
+		setFormat(Print.logStdout, Print.format)
+	}
+	if Print.logFile != nil {
+		setFormat(Print.logFile, Print.format)
+	}
+	if Print.logCustomInfo != nil {
+		setFormat(Print.logCustomInfo, Print.format)
+	}
+	if Print.logCustomWarn != nil {
+		setFormat(Print.logCustomWarn, Print.format)
+	}
+	if Print.logCustomDebug != nil {
+		setFormat(Print.logCustomDebug, Print.format)
+	}
+	if Print.logCustomError != nil {
+		setFormat(Print.logCustomError, Print.format)
+	}
 }
 
 func setFormat(logger *logrus.Logger, format LogFormat) {
