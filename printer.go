@@ -239,23 +239,25 @@ func (p *Printer) closeFile() {
 }
 
 func (p *Printer) push(message string, level LogLevel) {
-	var srcExValue, srcInValue string
+	var srcInValue string
 
 	if level > p.level {
 		return
 	}
 
 	fields := logrus.Fields{}
-	_, path, line, ok := runtime.Caller(4)
-	if ok {
-		paths := strings.Split(path, "/")
-		if len(paths) > 1 {
-			srcFileName := fmt.Sprintf("%s/%s", paths[len(paths)-2], paths[len(paths)-1])
-			srcLineName := strconv.Itoa(line)
-			srcExValue = fmt.Sprintf("%s:%s", srcFileName, srcLineName)
+	/*
+		_, path, line, ok := runtime.Caller(4)
+		if ok {
+			paths := strings.Split(path, "/")
+			if len(paths) > 1 {
+				srcFileName := fmt.Sprintf("%s/%s", paths[len(paths)-2], paths[len(paths)-1])
+				srcLineName := strconv.Itoa(line)
+				srcExValue = fmt.Sprintf("%s:%s", srcFileName, srcLineName)
+			}
 		}
-	}
-	_, path, line, ok = runtime.Caller(3)
+	*/
+	_, path, line, ok := runtime.Caller(3)
 	if ok {
 		paths := strings.Split(path, "/")
 		if len(paths) > 1 {
@@ -265,7 +267,9 @@ func (p *Printer) push(message string, level LogLevel) {
 		}
 	}
 
-	fields[string(LogFieldTrace)] = fmt.Sprintf("%s,%s", srcExValue, srcInValue)
+	// fields[string(LogFieldTrace)] = fmt.Sprintf("%s,%s", srcExValue, srcInValue)
+
+	fields[string(LogFieldTrace)] = fmt.Sprintf("%s", srcInValue)
 	fields[string(LogFieldExecId)] = strings.ToUpper(strconv.FormatInt(LogExecId, 36))
 	fields[string(LogFieldBinary)] = filepath.Base(os.Args[0])
 

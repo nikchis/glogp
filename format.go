@@ -37,7 +37,7 @@ const (
 	LogFieldMemory    LogField = "mem"
 	LogFieldMessage   LogField = "msg"
 	LogFieldTimedelta LogField = "td"
-	LogFieldTrace     LogField = "trace"
+	LogFieldTrace     LogField = "btrace"
 	LogFieldExecId    LogField = "eid"
 	LogFieldBinary    LogField = "bin"
 )
